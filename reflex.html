@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Obora Stephen Efurhievwe reflexes</title>
+</head>
+<body class="container py-4">
+    <h1>Obora Stephen Efurhievwe reflexes</h1>
+    <div id="target">Your time</div>
+    <div id="countdown">Count</div>
+    <button onclick="beginTime()" class="btn btn-primary">Go</button>
+    <button onclick="recordTime()" class="btn btn-danger">Halt</button>
+
+    <script>
+        let haltTime = undefined;
+
+        function recordTime() {
+            haltTime = Date.now();
+            console.log("Halt time recorded:", haltTime);
+        }
+
+        function beginTime() {
+            haltTime = undefined;
+            for (let i = 0; i < 6; i++) {
+                setTimeout(() => {
+                    document.getElementById("countdown").innerHTML = i;
+                }, (5 - i) * 1000);
+            }
+
+            setTimeout(() => {
+                if (haltTime === undefined) {
+                    document.getElementById("target").innerHTML = "Not soon enough";
+                } else {
+                    let diff = haltTime - (Date.now() - 5000); // approximate elapsed check
+                    document.getElementById("target").innerHTML = "Time was " + Math.abs(diff) + " ms";
+                }
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
