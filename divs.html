@@ -3,19 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <title>Obora Stephen Efurhievwe builds list with divs</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        .flex-container { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
-        .divlist { background: #e0e0e0; padding: 15px; border: 1px solid #ccc; }
+        .flex-container {
+            display: flex;
+            flex-direction: row;
+            background-color: DodgerBlue;
+            gap: 10px;
+            padding: 10px;
+            flex-wrap: wrap;
+        }
+        .divlist {
+            background-color: #f1f1f1;
+            padding: 20px;
+            font-size: 20px;
+        }
     </style>
 </head>
 <body class="container py-4">
     <h1>Obora Stephen Efurhievwe builds list with divs</h1>
-    <input type="text" id="userInput" class="form-control mb-2" placeholder="Enter text">
-    <button onclick="addEnd()" class="btn btn-primary">Add end</button>
-    <button onclick="addFront()" class="btn btn-success">Add front</button>
-    <button onclick="removeEveryOther()" class="btn btn-warning">Remove</button>
 
-    <div class="flex-container" id="container">
+    <input type="text" id="userInput" class="form-control mb-3" placeholder="Enter text here">
+    <button class="btn btn-success me-2" onclick="addEnd()">Add end</button>
+    <button class="btn btn-primary me-2" onclick="addFront()">Add front</button>
+    <button class="btn btn-warning me-2" onclick="removeEveryOther()">Remove</button>
+    <button class="btn btn-info" onclick="shuffleDivs()">Shuffle</button>
+
+    <div class="flex-container mt-3" id="container">
         <div class="divlist">First item</div>
         <div class="divlist">Second item</div>
         <div class="divlist">Third item</div>
@@ -33,7 +47,7 @@
         function addFront() {
             let val = document.getElementById("userInput").value;
             let newDiv = document.createElement("div");
-            newDiv.innerHTML = val ? val : "Front Item";
+            newDiv.innerHTML = val ? val : "New Item";
             newDiv.className = "divlist";
             let container = document.getElementById("container");
             container.insertBefore(newDiv, container.firstChild);
@@ -41,10 +55,25 @@
 
         function removeEveryOther() {
             let divListItems = document.getElementsByClassName("divlist");
-            // Remove from back to front to avoid index shifting issues
-            for (let i = divListItems.length - 1; i >= 0; i -= 2) {
-                divListItems[i].remove();
+            let itemsArray = Array.from(divListItems);
+            for (let i = 0; i < itemsArray.length; i += 2) {
+                itemsArray[i].remove();
             }
+        }
+
+        function shuffleDivs() {
+            let container = document.getElementById("container");
+            let items = Array.from(container.getElementsByClassName("divlist"));
+            if (items.length < 2) return;
+            let idx1 = Math.floor(Math.random() * items.length);
+            let idx2 = Math.floor(Math.random() * items.length);
+            if (idx1 === idx2) return;
+            
+            let clone1 = items[idx1].cloneNode(true);
+            let clone2 = items[idx2].cloneNode(true);
+            
+            items[idx1].replaceWith(clone2);
+            items[idx2].replaceWith(clone1);
         }
     </script>
 </body>
